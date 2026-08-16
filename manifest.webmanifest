@@ -1,15 +1,1 @@
-{
-  "name": "Glicose Diário",
-  "short_name": "Glicose",
-  "description": "Registro pessoal de glicose e jantar anterior.",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f5f7fb",
-  "theme_color": "#111827",
-  "orientation": "portrait",
-  "lang": "pt-BR",
-  "icons": [
-    {"src":"icon-192.png","sizes":"192x192","type":"image/png"},
-    {"src":"icon-512.png","sizes":"512x512","type":"image/png"}
-  ]
-}
+{"name":"Glicose","short_name":"Glicose","start_url":"./","display":"standalone","background_color":"#f5f7fb","theme_color":"#111827","lang":"pt-BR"}
