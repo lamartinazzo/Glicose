@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="app-version" content="9">
+<meta charset="utf-8"><meta name="app-version" content="11">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
 <title>Glicose — diário</title>
@@ -10,15 +10,16 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}.app{max-width:720px;margin:auto;padding:16px 14px 45px}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.eyebrow,.section-kicker{font-size:10px;letter-spacing:1px;font-weight:800;color:#9098a5}.topbar h1{font-size:29px;margin:3px 0}.topbar p{font-size:13px;color:var(--muted);margin:0}.round-btn{border:0;background:var(--blue);color:white;width:44px;height:44px;border-radius:50%;font-size:24px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.today-card{padding:18px;margin-bottom:11px}.today-head,.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.today-card h2,.panel h2{font-size:18px;margin:4px 0}.today-card p{font-size:13px;line-height:1.45;color:var(--muted);margin:11px 0 15px}.status-pill{font-size:10px;font-weight:800;padding:6px 9px;border-radius:99px;background:#fff1db;color:#9a5b08}.status-pill.done{background:#e9f7ee;color:var(--green)}.muted-pill{background:#f0f2f5;color:#777f8d}.primary,.secondary{border:0;border-radius:12px;padding:12px 15px;font-weight:750}.primary{background:var(--blue);color:#fff}.secondary{background:#f0f3f7;color:#263142}.wide{width:100%}
-.panel{padding:18px;margin:11px 0}.chart-wrap{height:205px;margin-top:8px}.chart-wrap canvas{width:100%;height:100%}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:11px 0}.stat{padding:14px}.stat span{font-size:11px;color:var(--muted);display:block}.stat strong{font-size:21px;display:block;margin-top:6px}.stat small{font-size:10px;color:#9aa2ae}.text-btn{border:0;background:none;color:var(--blue);font-weight:700}
+.panel{padding:18px;margin:11px 0}.chart-wrap{height:285px;margin-top:8px}.chart-wrap canvas{width:100%;height:100%}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:11px 0}.stat{padding:14px}.stat span{font-size:11px;color:var(--muted);display:block}.stat strong{font-size:21px;display:block;margin-top:6px}.stat small{font-size:10px;color:#9aa2ae}.text-btn{border:0;background:none;color:var(--blue);font-weight:700}
 .history-item{display:flex;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}.history-item:last-child{border:0}.history-dinner{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}.history-right{text-align:right}.history-right b{font-size:17px}.history-right small{font-size:9px;color:var(--muted)}.pending-glucose{font-size:11px;color:#9a5b08;font-weight:750}.mini{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 8px;font-size:11px}.empty{text-align:center;color:var(--muted);padding:24px}.footer{font-size:10px;color:#929aa7;margin-top:15px}
 .modal{position:fixed;inset:0;background:#0006;display:none;align-items:flex-end;padding:9px;z-index:20}.modal.open{display:flex}.modal-box{background:white;border-radius:24px 24px 12px 12px;width:min(680px,100%);padding:18px;max-height:92vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px}.modal-head h3{font-size:21px;margin:4px 0}.close{border:0;background:#f1f3f6;border-radius:50%;width:34px;height:34px;font-size:20px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}.field label{font-size:12px;font-weight:750}.hint{color:#98a2b3;font-weight:400}input,textarea{width:100%;border:1px solid #dce1e8;border-radius:12px;padding:12px;font:inherit}textarea{min-height:68px}.section-label{font-size:11px;font-weight:800;color:#7c8592;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 8px}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{border:1px solid #dce1e8;background:white;border-radius:99px;padding:8px 11px;font-size:12px}.chip.selected{background:#eaf1ff;border-color:#8fb2ff;color:#174ea6;font-weight:750}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.linked-dinner{background:#f6f8fa;border-radius:13px;padding:12px;font-size:12px;color:#667085;line-height:1.5}
 
 .history-main{min-width:0}.dinner-time{font-size:11px;color:#8b94a2;margin-left:6px}.history-actions{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}.glucose-btn{margin-top:5px}.danger-btn{color:#a33}
 .export-btn{border:0;background:#eaf1ff;color:#174ea6;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:800}
+.chart-note{font-size:10px;color:#8a93a0;line-height:1.4;margin-top:4px;padding-top:8px;border-top:1px solid var(--line)}
 </style>
 </head>
-<body data-app-version="9.0">
+<body data-app-version="11.0">
 <div class="app">
 <header class="topbar">
   <div><div class="eyebrow">DIÁRIO DE GLICOSE</div><h1>Glicose</h1><p>Jantar hoje. Glicose amanhã.</p></div>
@@ -37,7 +38,7 @@
   <button class="secondary wide" onclick="openMorningEntry()">Registrar glicose</button>
 </section>
 
-<section class="card panel"><div class="panel-head"><div><span class="section-kicker">TENDÊNCIA</span><h2>Evolução</h2></div></div><div class="chart-wrap"><canvas id="chart"></canvas></div></section>
+<section class="card panel"><div class="panel-head"><div><span class="section-kicker">TENDÊNCIA</span><h2>Evolução</h2></div></div><div class="chart-wrap"><canvas id="chart"></canvas></div><div class="chart-note">Faixa de referência: 70–99 mg/dL. Pontos em atenção: 70–74 e 94–99. Fora da faixa: abaixo de 70 ou acima de 99.</div></section>
 
 <section class="stats-grid">
 <div class="card stat"><span>Última</span><strong id="sLatest">—</strong><small id="sLatestDate">—</small></div>
@@ -64,7 +65,7 @@
 <div class="section-label">Carboidrato</div><div class="chips" data-group="carb">
 <button type="button" class="chip" data-value="Arroz branco">Arroz branco</button><button type="button" class="chip" data-value="Pão">Pão</button><button type="button" class="chip" data-value="Massa">Massa</button><button type="button" class="chip" data-value="Nhoque">Nhoque</button><button type="button" class="chip" data-value="Batata">Batata</button><button type="button" class="chip" data-value="Purê de batata">Purê de batata</button><button type="button" class="chip" data-value="Batata doce">Batata doce</button><button type="button" class="chip" data-value="Ciabatta">Ciabatta</button><button type="button" class="chip" data-value="Pizza">Pizza</button><button type="button" class="chip" data-value="Sem carboidrato">Sem carboidrato</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button></div>
 <div class="section-label">Proteína</div><div class="chips" data-group="protein">
-<button type="button" class="chip" data-value="Frango">Frango</button><button type="button" class="chip" data-value="Carne bovina">Carne bovina</button><button type="button" class="chip" data-value="Peixe">Peixe</button><button type="button" class="chip" data-value="Ovos">Ovos</button><button type="button" class="chip" data-value="Carne suína">Carne suína</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button></div>
+<button type="button" class="chip" data-value="Frango">Frango</button><button type="button" class="chip" data-value="Sobrecoxa">Sobrecoxa</button><button type="button" class="chip" data-value="Carne bovina">Carne bovina</button><button type="button" class="chip" data-value="Peixe">Peixe</button><button type="button" class="chip" data-value="Ovos">Ovos</button><button type="button" class="chip" data-value="Carne suína">Carne suína</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button></div>
 <div class="section-label">Acompanhamentos</div><div class="chips" data-group="sides">
 <button type="button" class="chip" data-value="Saladas">Saladas</button><button type="button" class="chip" data-value="Legumes">Legumes</button><button type="button" class="chip" data-value="Queijo">Queijo</button><button type="button" class="chip" data-value="Molho">Molho</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button></div>
 <div class="field"><label>Fruta / pós-janta <span class="hint">opcional</span></label><input id="postDinner" type="text" placeholder="Ex.: 2 laranjas"></div>
@@ -77,7 +78,7 @@
 <script>
 const KEY="glicose_diary_normalized_v1";
 let state=JSON.parse(localStorage.getItem(KEY)||'{"dinners":[]}');
-const INITIAL_HISTORY=[{'id': 'hist_20260809', 'date': '2026-08-08', 'dinnerTime': '19:15', 'glucose': 100, 'glucoseDate': '2026-08-09', 'carb': ['Arroz branco'], 'protein': ['Maminha'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260810', 'date': '2026-08-09', 'dinnerTime': '21:30', 'glucose': 90, 'glucoseDate': '2026-08-10', 'carb': ['Pão'], 'protein': ['Ovos'], 'sides': ['Saladas'], 'postDinner': '1 laranja', 'notes': 'Omelete com salame'}, {'id': 'hist_20260811', 'date': '2026-08-10', 'dinnerTime': '19:10', 'glucose': 98, 'glucoseDate': '2026-08-11', 'carb': ['Nhoque'], 'protein': ['Carne bovina'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': 'Sobrecoxa'}, {'id': 'hist_20260812', 'date': '2026-08-11', 'dinnerTime': '19:10', 'glucose': 91, 'glucoseDate': '2026-08-12', 'carb': ['Pão'], 'protein': ['Ovos'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': 'Omelete com salame'}, {'id': 'hist_20260813', 'date': '2026-08-12', 'dinnerTime': '19:15', 'glucose': 89, 'glucoseDate': '2026-08-13', 'carb': ['Nhoque'], 'protein': ['Frango'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260815', 'date': '2026-08-14', 'dinnerTime': '19:45', 'glucose': 96, 'glucoseDate': '2026-08-15', 'carb': ['Arroz branco'], 'protein': ['Sobrecoxa'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260816', 'date': '2026-08-15', 'dinnerTime': '19:45', 'glucose': 97, 'glucoseDate': '2026-08-16', 'carb': ['Ciabatta'], 'protein': ['Entrecot'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}];
+const INITIAL_HISTORY=[{'id': 'hist_20260809', 'date': '2026-08-08', 'dinnerTime': '19:15', 'glucose': 100, 'glucoseDate': '2026-08-09', 'carb': ['Arroz branco'], 'protein': ['Maminha'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260810', 'date': '2026-08-09', 'dinnerTime': '21:30', 'glucose': 90, 'glucoseDate': '2026-08-10', 'carb': ['Pão'], 'protein': ['Sobrecoxa'], 'sides': ['Saladas'], 'postDinner': '1 laranja', 'notes': 'Omelete com salame'}, {'id': 'hist_20260811', 'date': '2026-08-10', 'dinnerTime': '19:10', 'glucose': 98, 'glucoseDate': '2026-08-11', 'carb': ['Nhoque'], 'protein': ['Carne bovina'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': 'Sobrecoxa'}, {'id': 'hist_20260812', 'date': '2026-08-11', 'dinnerTime': '19:10', 'glucose': 91, 'glucoseDate': '2026-08-12', 'carb': ['Pão'], 'protein': ['Ovos'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': 'Omelete com salame'}, {'id': 'hist_20260813', 'date': '2026-08-12', 'dinnerTime': '19:15', 'glucose': 89, 'glucoseDate': '2026-08-13', 'carb': ['Nhoque'], 'protein': ['Frango'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260815', 'date': '2026-08-14', 'dinnerTime': '19:45', 'glucose': 96, 'glucoseDate': '2026-08-15', 'carb': ['Arroz branco'], 'protein': ['Sobrecoxa'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260816', 'date': '2026-08-15', 'dinnerTime': '19:45', 'glucose': 97, 'glucoseDate': '2026-08-16', 'carb': ['Ciabatta'], 'protein': ['Entrecot'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}];
 if(!localStorage.getItem(KEY)){
   state={dinners:INITIAL_HISTORY};
   localStorage.setItem(KEY,JSON.stringify(state));
@@ -261,16 +262,108 @@ function render(){
   draw();
 }
 
+function glucoseStatus(v){
+  if(v<70 || v>99) return "alterada";
+  if((v>=70&&v<=74)||(v>=94&&v<=99)) return "atenção";
+  return "normal";
+}
+
 function draw(){
-  const c=$("chart"),r=c.getBoundingClientRect(),ctx=c.getContext("2d"),d=devicePixelRatio||1;
-  c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,r.width,r.height);
-  const a=state.dinners.filter(x=>x.glucose!=null).sort((x,y)=>(x.glucoseDate||plus(x.date,1)).localeCompare(y.glucoseDate||plus(y.date,1)));
-  if(!a.length){ctx.fillStyle="#98a2b3";ctx.textAlign="center";ctx.font="14px sans-serif";ctx.fillText("Suas medições aparecerão aqui",r.width/2,r.height/2);return}
-  const mn=Math.min(...a.map(x=>x.glucose)),mx=Math.max(...a.map(x=>x.glucose)),lo=mn-5,hi=mx+5;
-  const X=i=>35+(r.width-55)*(i/(a.length-1||1)),Y=v=>12+(r.height-42)*(1-(v-lo)/(hi-lo||1));
-  ctx.strokeStyle="#2563eb";ctx.lineWidth=2.5;ctx.beginPath();
-  a.forEach((e,i)=>i?ctx.lineTo(X(i),Y(e.glucose)):ctx.moveTo(X(i),Y(e.glucose)));ctx.stroke();
-  a.forEach((e,i)=>{ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(X(i),Y(e.glucose),4,0,7);ctx.fill();ctx.strokeStyle="#2563eb";ctx.stroke()});
+  const c=$("chart"),r=c.getBoundingClientRect(),ctx=c.getContext("2d"),dpr=devicePixelRatio||1;
+  const W=r.width,H=r.height;
+  c.width=Math.max(1,W*dpr);c.height=Math.max(1,H*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+
+  const data=state.dinners
+    .filter(x=>x.glucose!=null)
+    .sort((x,y)=>(x.glucoseDate||plus(x.date,1)).localeCompare(y.glucoseDate||plus(y.date,1)));
+
+  if(!data.length){
+    ctx.fillStyle="#98a2b3";ctx.textAlign="center";ctx.font="14px sans-serif";
+    ctx.fillText("Suas medições aparecerão aqui",W/2,H/2);return;
+  }
+
+  // Fixed clinical/contextual display limits requested by the user.
+  // The plotting window extends slightly beyond them so out-of-range values
+  // remain visible, while the limits themselves stay fixed at 70 and 99.
+  const axisMin=60,axisMax=105;
+  const p={l:42,r:16,t:18,b:40};
+  const plotW=W-p.l-p.r,plotH=H-p.t-p.b;
+  const X=i=>p.l+plotW*(data.length===1?.5:i/(data.length-1));
+  const Y=v=>p.t+plotH*(1-(v-axisMin)/(axisMax-axisMin));
+  const clampY=v=>Math.max(p.t,Math.min(H-p.b,Y(v)));
+
+  // Background zones.
+  ctx.fillStyle="#eef7f1";ctx.fillRect(p.l,Y(94),plotW,Y(75)-Y(94)); // normal 75–93
+  ctx.fillStyle="#fff6df";ctx.fillRect(p.l,Y(99),plotW,Y(94)-Y(99)); // attention 94–99
+  ctx.fillStyle="#fff6df";ctx.fillRect(p.l,Y(74),plotW,Y(70)-Y(74)); // attention 70–74
+  ctx.fillStyle="#fff0f0";ctx.fillRect(p.l,p.t,plotW,Y(99)-p.t);       // >99
+  ctx.fillStyle="#fff0f0";ctx.fillRect(p.l,Y(70),plotW,H-p.b-Y(70));   // <70
+
+  // Grid and y labels.
+  ctx.font="11px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";
+  ctx.textAlign="right";ctx.lineWidth=1;
+  [60,70,74,81,88,94,99,105].forEach(v=>{
+    const y=Y(v);
+    ctx.strokeStyle=(v===70||v===99)?"#9b7b36":"#e5e8ec";
+    ctx.setLineDash((v===70||v===99)?[5,5]:[2,7]);
+    ctx.beginPath();ctx.moveTo(p.l,y);ctx.lineTo(W-p.r,y);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=(v===70||v===99)?"#6b5a2b":"#7c8491";
+    ctx.fillText(v,p.l-7,y+4);
+  });
+
+  // Fixed threshold labels.
+  ctx.textAlign="left";ctx.font="10px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";
+  ctx.fillStyle="#6b5a2b";ctx.fillText("limite 99",p.l+5,Y(99)-5);
+  ctx.fillText("limite 70",p.l+5,Y(70)+13);
+
+  // Smooth line using quadratic midpoints, with segment status coloring.
+  const points=data.map((e,i)=>({x:X(i),y:clampY(e.glucose),value:e.glucose,status:glucoseStatus(e.glucose)}));
+  function segmentColor(a,b){
+    if(a.status==="alterada"||b.status==="alterada") return "#c73d3d";
+    if(a.status==="atenção"||b.status==="atenção") return "#c68a1a";
+    return "#456b5a";
+  }
+  ctx.lineWidth=3;ctx.lineCap="round";ctx.lineJoin="round";
+  for(let i=0;i<points.length-1;i++){
+    const a=points[i],b=points[i+1],mx=(a.x+b.x)/2;
+    ctx.strokeStyle=segmentColor(a,b);ctx.beginPath();
+    ctx.moveTo(a.x,a.y);ctx.quadraticCurveTo(mx,a.y,mx,(a.y+b.y)/2);
+    ctx.quadraticCurveTo(mx,b.y,b.x,b.y);ctx.stroke();
+  }
+
+  // Points.
+  points.forEach((pt,i)=>{
+    const fill=pt.status==="alterada"?"#c73d3d":pt.status==="atenção"?"#c68a1a":"#456b5a";
+    ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(pt.x,pt.y,6,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=fill;ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle=fill;ctx.beginPath();ctx.arc(pt.x,pt.y,3.2,0,Math.PI*2);ctx.fill();
+  });
+
+  // X-axis labels.
+  ctx.fillStyle="#7c8491";ctx.font="11px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";ctx.textAlign="center";
+  points.forEach((pt,i)=>{
+    const label=short(data[i].glucoseDate||plus(data[i].date,1));
+    ctx.fillText(label,pt.x,H-14);
+  });
+
+  // Compact legend.
+  const legend=[
+    ["#456b5a","Normal","75–93"],
+    ["#c68a1a","Atenção","70–74 / 94–99"],
+    ["#c73d3d","Alterada","<70 / >99"]
+  ];
+  let lx=p.l,ly=H-2;
+  // Draw legend just above x labels when there is enough width; otherwise
+  // use the top-right area.
+  if(W<390){ly=p.t+8;lx=W-150}else{ly=H-1;lx=p.l}
+  ctx.textAlign="left";ctx.font="9px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";
+  legend.forEach(([color,name,range],idx)=>{
+    const x=lx+idx*(W<390?0:112), y=ly-(W<390?idx*14:0);
+    ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y-3,3,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#697282";ctx.fillText(name+" "+range,x+7,y);
+  });
 }
 
 function exportCSV(){
