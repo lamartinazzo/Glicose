@@ -1,1 +1,1 @@
-const C="glicose-v2";self.addEventListener("install",e=>e.waitUntil(caches.open(C).then(c=>c.add("./"))));self.addEventListener("fetch",e=>e.respondWith(caches.match(e.request).then(x=>x||fetch(e.request))));
+const C="glicose-normalizado-v1";self.addEventListener("install",e=>e.waitUntil(caches.open(C).then(c=>c.add("./"))));self.addEventListener("fetch",e=>e.respondWith(caches.match(e.request).then(x=>x||fetch(e.request))));

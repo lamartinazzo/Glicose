@@ -46,7 +46,7 @@
 </section>
 
 <section class="card panel" id="history"><div class="panel-head"><div><span class="section-kicker">HISTÓRICO</span><h2>Registros</h2></div><button class="text-btn" onclick="exportCSV()">Exportar</button></div><div id="historyList"></div></section>
-<div class="footer">Histórico inicial importado da sua planilha. Os registros ficam salvos localmente neste navegador. A glicose está vinculada à manhã seguinte ao jantar.</div>
+<div class="footer">Seus registros ficam salvos localmente neste navegador.</div>
 </div>
 
 <div class="modal" id="modal"><div class="modal-box">
@@ -166,11 +166,6 @@
 <script>
 const KEY="glicose_diary_normalized_v1";
 let state=JSON.parse(localStorage.getItem(KEY)||'{"dinners":[]}');
-const INITIAL_HISTORY=[{'id': 'hist_20260809', 'date': '2026-08-08', 'dinnerTime': '19:15', 'glucose': 100, 'glucoseDate': '2026-08-09', 'carb': ['Arroz branco'], 'protein': ['Maminha'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260810', 'date': '2026-08-09', 'dinnerTime': '21:30', 'glucose': 90, 'glucoseDate': '2026-08-10', 'carb': ['Pão'], 'protein': ['Ovos'], 'sides': ['Saladas'], 'postDinner': '1 laranja', 'notes': 'Omelete com salame'}, {'id': 'hist_20260811', 'date': '2026-08-10', 'dinnerTime': '19:10', 'glucose': 98, 'glucoseDate': '2026-08-11', 'carb': ['Nhoque'], 'protein': ['Carne bovina'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': 'Sobrecoxa'}, {'id': 'hist_20260812', 'date': '2026-08-11', 'dinnerTime': '19:10', 'glucose': 91, 'glucoseDate': '2026-08-12', 'carb': ['Pão'], 'protein': ['Ovos'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': 'Omelete com salame'}, {'id': 'hist_20260813', 'date': '2026-08-12', 'dinnerTime': '19:15', 'glucose': 89, 'glucoseDate': '2026-08-13', 'carb': ['Nhoque'], 'protein': ['Frango'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260815', 'date': '2026-08-14', 'dinnerTime': '19:45', 'glucose': 96, 'glucoseDate': '2026-08-15', 'carb': ['Arroz branco'], 'protein': ['Sobrecoxa'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}, {'id': 'hist_20260816', 'date': '2026-08-15', 'dinnerTime': '19:45', 'glucose': 97, 'glucoseDate': '2026-08-16', 'carb': ['Ciabatta'], 'protein': ['Entrecot'], 'sides': ['Saladas'], 'postDinner': '2 laranjas', 'notes': ''}];
-if(!localStorage.getItem(KEY)){
-  state={dinners:INITIAL_HISTORY};
-  localStorage.setItem(KEY,JSON.stringify(state));
-}
 let mode="dinner",editingId=null,glucoseDinnerId=null;
 
 const $=id=>document.getElementById(id);
