@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="app-version" content="16">
+<meta charset="utf-8"><meta name="app-version" content="17">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
 <title>Glicose — diário</title>
@@ -18,9 +18,9 @@
 .export-btn{border:0;background:#eaf1ff;color:#174ea6;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:800}
 .chart-note{font-size:10px;color:#8a93a0;line-height:1.4;margin-top:4px;padding-top:8px;border-top:1px solid var(--line)}
 .filters{margin:0 0 12px}.filter-title{font-size:11px;font-weight:800;color:#667085;margin-bottom:7px}.filter-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.filter-row select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:9px 30px 9px 10px;font-size:12px;color:#344054;min-width:150px}.filter-row select:focus{outline:2px solid #dbe8ff}.filter-active{background:#eaf1ff!important;color:#174ea6!important}.secondary-chart{margin-top:18px;padding-top:18px;border-top:1px solid #edf0f5}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.chart-head h3{margin:3px 0 0;font-size:15px}.chart-head select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:8px 28px 8px 9px;font-size:11px;color:#344054}.bar-chart-wrap{height:250px;position:relative}.bar-chart-wrap canvas{width:100%;height:100%}.chart-subtitle{font-size:11px;color:#98a2b3;margin:3px 0 0}
-</style>
+.secondary-chart{clear:both;display:block;width:100%;margin-top:24px;padding-top:20px;border-top:1px solid #edf0f5;position:relative;z-index:1;background:#fff}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.chart-head h3{margin:3px 0 0;font-size:15px}.chart-subtitle{font-size:11px;color:#98a2b3;margin:3px 0 0}.chart-head select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:8px 28px 8px 9px;font-size:11px;color:#344054}.bar-chart-wrap{height:250px;width:100%;position:relative}.bar-chart-wrap canvas{display:block;width:100%;height:250px}</style>
 <link id="app-icon-svg" rel="icon" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYXBwLWljb24tc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQyIiBmaWxsPSIjMTcyMDMzIi8+PHBhdGggZD0iTTkwIDM1Yy0yOCAwLTUxIDIzLTUxIDUxIDAgMzQgNTEgNTkgNTEgNTlzNTEtMjUgNTEtNTljMC0yOC0yMy01MS01MS01MVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNOTAgNTF2NzBNNTUgODZoNzAiIHN0cm9rZT0iI2Q2NDU0NSIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"><link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYXBwLWljb24tc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQyIiBmaWxsPSIjMTcyMDMzIi8+PHBhdGggZD0iTTkwIDM1Yy0yOCAwLTUxIDIzLTUxIDUxIDAgMzQgNTEgNTkgNTEgNTlzNTEtMjUgNTEtNTljMC0yOC0yMy01MS01MS01MVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNOTAgNTF2NzBNNTUgODZoNzAiIHN0cm9rZT0iI2Q2NDU0NSIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"></head>
-<body data-app-version="16.0">
+<body data-app-version="17.0">
 <div class="app">
 <header class="topbar">
   <div><div class="eyebrow">DIÁRIO DE GLICOSE</div><h1>Glicose</h1><p>Jantar hoje. Glicose amanhã.</p></div>
@@ -39,7 +39,8 @@
   <button class="secondary wide" onclick="openMorningEntry()">Registrar glicose</button>
 </section>
 
-<section class="card panel"><div class="panel-head"><div><span class="section-kicker">TENDÊNCIA</span><h2>Evolução</h2></div></div><div class="chart-wrap"><div class="filters" id="filters">
+<section class="card panel"><div class="panel-head"><div><span class="section-kicker">TENDÊNCIA</span><h2>Evolução</h2></div></div><div class="chart-wrap">
+<div class="filters" id="filters">
   <div class="filter-title">Filtrar gráfico</div>
   <div class="filter-row">
     <select id="carbFilter"><option value="">Todos os carboidratos</option></select>
@@ -47,10 +48,15 @@
     <button type="button" id="clearFilters" class="mini">Limpar</button>
   </div>
 </div>
-<canvas id="chart"></canvas></div><div class="secondary-chart">
+<canvas id="chart"></canvas>
+</div><div class="secondary-chart">
   <div class="chart-head">
     <div><span class="section-kicker">ANÁLISE POR CARBOIDRATO</span><h3>Média da glicose por carboidrato</h3><p class="chart-subtitle">Glicose média associada a cada carboidrato</p></div>
-    <select id="carbPeriod"><option value="all">Tempo total</option><option value="30">Últimos 30 dias</option><option value="7">Últimos 7 dias</option></select>
+    <select id="carbPeriod">
+      <option value="all">Tempo total</option>
+      <option value="30">Últimos 30 dias</option>
+      <option value="7">Últimos 7 dias</option>
+    </select>
   </div>
   <div class="bar-chart-wrap"><canvas id="carbAvgChart"></canvas></div>
 </div><div class="chart-note">Faixa de referência: 70–99 mg/dL. Pontos em atenção: 70–74 e 94–99. Fora da faixa: abaixo de 70 ou acima de 99.</div></section>
@@ -291,81 +297,62 @@ function filteredDinners(){
     return carbOk && proteinOk && d.glucose!=null;
   }).sort((a,b)=>(a.glucoseDate||plus(a.date,1)).localeCompare(b.glucoseDate||plus(b.date,1)));
 }
+function filteredDinners(){
+  return state.dinners.filter(d=>{
+    const carbOk=!filters.carb || (d.carb||[]).includes(filters.carb);
+    const proteinOk=!filters.protein || (d.protein||[]).includes(filters.protein);
+    return carbOk && proteinOk && d.glucose!=null;
+  }).sort((a,b)=>(a.glucoseDate||plus(a.date,1)).localeCompare(b.glucoseDate||plus(b.date,1)));
+}
 function draw(){
-  const c=$("chart"),r=c.getBoundingClientRect(),ctx=c.getContext("2d"),d=devicePixelRatio||1;
-  c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,r.width,r.height);
-  const a=filteredDinners();
-  const mn=60,mx=105;
-  const X=i=>35+(r.width-55)*(i/(a.length-1||1)),Y=v=>12+(r.height-42)*(1-(v-mn)/(mx-mn));
-  ctx.font="11px sans-serif";ctx.textAlign="left";
+  const c=$("chart"); if(!c)return;
+  const r=c.getBoundingClientRect(),ctx=c.getContext("2d"),d=devicePixelRatio||1;
+  if(!r.width||!r.height||!ctx)return;
+  c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);
+  ctx.clearRect(0,0,r.width,r.height);
+  const a=filteredDinners(),mn=60,mx=105;
+  const left=35,right=20,top=12,bottom=34,w=r.width-left-right,h=r.height-top-bottom;
+  const X=i=>left+w*(i/(a.length-1||1)),Y=v=>top+h*(1-(Math.max(mn,Math.min(mx,v))-mn)/(mx-mn));
   const y70=Y(70),y75=Y(75),y94=Y(94),y99=Y(99);
-  // Background bands: altered / attention / normal.
-  ctx.fillStyle="rgba(214,69,69,.07)";ctx.fillRect(35,0,r.width-55,y99);
-  ctx.fillStyle="rgba(245,158,11,.09)";ctx.fillRect(35,y99,r.width-55,y94-y99);
-  ctx.fillStyle="rgba(34,197,94,.06)";ctx.fillRect(35,y94,r.width-55,y75-y94);
-  ctx.fillStyle="rgba(245,158,11,.09)";ctx.fillRect(35,y75,r.width-55,y70-y75);
-  ctx.fillStyle="rgba(214,69,69,.07)";ctx.fillRect(35,y70,r.width-55,r.height-y70);
-  // Grid and limit lines.
-  ctx.strokeStyle="#e7eaf0";ctx.lineWidth=1;
-  [60,70,75,94,99,105].forEach(v=>{const y=Y(v);ctx.beginPath();ctx.moveTo(35,y);ctx.lineTo(r.width-20,y);ctx.stroke()});
-  ctx.strokeStyle="#d64545";ctx.setLineDash([5,4]);ctx.lineWidth=1.5;
-  [70,99].forEach(v=>{const y=Y(v);ctx.beginPath();ctx.moveTo(35,y);ctx.lineTo(r.width-20,y);ctx.stroke()});ctx.setLineDash([]);
-  ctx.fillStyle="#667085";ctx.textAlign="right";
-  [60,70,75,94,99,105].forEach(v=>ctx.fillText(v+"",31,Y(v)+4));
-  if(!a.length){
-    ctx.textAlign="center";ctx.fillStyle="#98a2b3";ctx.font="14px sans-serif";
-    ctx.fillText(filters.carb||filters.protein?"Nenhum registro para este filtro":"Suas medições aparecerão aqui",r.width/2,r.height/2);
-    return;
-  }
-  // Smooth-ish line.
-  ctx.lineWidth=2.5;ctx.strokeStyle="#315fbd";ctx.beginPath();
-  a.forEach((e,i)=>i?ctx.lineTo(X(i),Y(e.glucose)):ctx.moveTo(X(i),Y(e.glucose)));ctx.stroke();
-  a.forEach((e,i)=>{
-    const v=e.glucose;
-    const outside=v<70||v>99, attention=(v>=70&&v<=74)||(v>=94&&v<=99);
-    ctx.fillStyle=outside?"#d64545":attention?"#f59e0b":"#315fbd";
-    ctx.beginPath();ctx.arc(X(i),Y(v),5,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle="#344054";ctx.font="10px sans-serif";ctx.textAlign="center";ctx.fillText(v,X(i),Y(v)-9);
-    ctx.fillStyle="#98a2b3";ctx.fillText(short(e.glucoseDate||plus(e.date,1)),X(i),r.height-9);
-  });
-}
-function drawCarbAverage(){
-  const c=$("carbAvgChart"); if(!c)return;
-  const r=c.getBoundingClientRect(),ctx=c.getContext("2d"),dpr=devicePixelRatio||1;
-  c.width=r.width*dpr;c.height=r.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,r.width,r.height);
-  const period=$("carbPeriod")?.value||"all";
-  const cutoff=period==="all"?null:new Date(Date.now()-Number(period)*86400000);
-  const rows={};
-  state.dinners.filter(d=>d.glucose!=null).forEach(d=>{
-    const gd=new Date((d.glucoseDate||plus(d.date,1))+"T12:00:00");
-    if(cutoff && gd<cutoff)return;
-    (d.carb||[]).forEach(carb=>{
-      if(!rows[carb])rows[carb]={sum:0,n:0};
-      rows[carb].sum+=Number(d.glucose);rows[carb].n++;
-    });
-  });
-  const a=Object.entries(rows).map(([carb,x])=>({carb,avg:x.sum/x.n,n:x.n})).sort((a,b)=>b.avg-a.avg);
-  const left=42,right=18,top=18,bottom=42,w=r.width-left-right,h=r.height-top-bottom;
-  const ymin=60,ymax=105,Y=v=>top+h*(1-(v-ymin)/(ymax-ymin));
-  ctx.font="10px sans-serif";ctx.textAlign="right";ctx.fillStyle="#667085";
-  [60,70,75,85,94,99,105].forEach(v=>{const y=Y(v);ctx.strokeStyle="#edf0f4";ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(left+w,y);ctx.stroke();ctx.fillText(v,left-6,y+3)});
-  ctx.strokeStyle="#d64545";ctx.setLineDash([5,4]);[70,99].forEach(v=>{const y=Y(v);ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(left+w,y);ctx.stroke()});ctx.setLineDash([]);
-  if(!a.length){ctx.textAlign="center";ctx.fillStyle="#98a2b3";ctx.font="13px sans-serif";ctx.fillText("Sem dados para este período",r.width/2,r.height/2);return}
-  const gap=10,barW=Math.max(18,Math.min(54,(w-gap*(a.length-1))/a.length));
-  a.forEach((x,i)=>{
-    const x0=left+i*(barW+gap), y=Y(x.avg), bh=Y(ymin)-y;
-    const outside=x.avg<70||x.avg>99, attention=(x.avg>=70&&x.avg<=74)||(x.avg>=94&&x.avg<=99);
-    ctx.fillStyle=outside?"#d64545":attention?"#f59e0b":"#315fbd";
-    ctx.beginPath();if(ctx.roundRect){ctx.roundRect(x0,y,barW,bh,6)}else{ctx.rect(x0,y,barW,bh)}ctx.fill();
-    ctx.fillStyle="#344054";ctx.font="10px sans-serif";ctx.textAlign="center";ctx.fillText(Math.round(x.avg),x0+barW/2,y-6);
-    ctx.fillStyle="#667085";ctx.font="9px sans-serif";
-    let label=x.carb.length>12?x.carb.slice(0,11)+"…":x.carb;
-    ctx.fillText(label,x0+barW/2,top+h+16);
-    ctx.fillStyle="#98a2b3";ctx.fillText(`n=${x.n}`,x0+barW/2,top+h+29);
-  });
-}
-$("carbPeriod")?.addEventListener("change",drawCarbAverage);
 
+  // All shaded areas and lines are clipped to the plot rectangle.
+  ctx.save();ctx.beginPath();ctx.rect(left,top,w,h);ctx.clip();
+  ctx.fillStyle="rgba(214,69,69,.07)";ctx.fillRect(left,top,w,y99-top);
+  ctx.fillStyle="rgba(245,158,11,.09)";ctx.fillRect(left,y99,w,y94-y99);
+  ctx.fillStyle="rgba(34,197,94,.06)";ctx.fillRect(left,y94,w,y75-y94);
+  ctx.fillStyle="rgba(245,158,11,.09)";ctx.fillRect(left,y75,w,y70-y75);
+  ctx.fillStyle="rgba(214,69,69,.07)";ctx.fillRect(left,y70,w,top+h-y70);
+
+  ctx.strokeStyle="#e7eaf0";ctx.lineWidth=1;
+  [60,70,75,94,99,105].forEach(v=>{const y=Y(v);ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(left+w,y);ctx.stroke()});
+  ctx.strokeStyle="#d64545";ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
+  [70,99].forEach(v=>{const y=Y(v);ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(left+w,y);ctx.stroke()});ctx.setLineDash([]);
+
+  if(a.length){
+    // Split line into segments so the plotted path is always clipped.
+    ctx.strokeStyle="#315fbd";ctx.lineWidth=2.5;ctx.beginPath();
+    a.forEach((e,i)=>i?ctx.lineTo(X(i),Y(e.glucose)):ctx.moveTo(X(i),Y(e.glucose)));ctx.stroke();
+
+    a.forEach((e,i)=>{
+      const v=e.glucose,outside=v<70||v>99,attention=(v>=70&&v<=74)||(v>=94&&v<=99);
+      ctx.fillStyle=outside?"#d64545":attention?"#f59e0b":"#315fbd";
+      ctx.beginPath();ctx.arc(X(i),Y(v),5,0,Math.PI*2);ctx.fill();
+    });
+  }
+  ctx.restore();
+
+  ctx.fillStyle="#667085";ctx.font="11px sans-serif";ctx.textAlign="right";
+  [60,70,75,94,99,105].forEach(v=>ctx.fillText(v+"",left-5,Y(v)+4));
+  if(a.length){
+    a.forEach((e,i)=>{
+      ctx.fillStyle="#344054";ctx.font="10px sans-serif";ctx.textAlign="center";ctx.fillText(e.glucose,X(i),Y(e.glucose)-9);
+      ctx.fillStyle="#98a2b3";ctx.fillText(short(e.glucoseDate||plus(e.date,1)),X(i),top+h+18);
+    });
+  }else{
+    ctx.textAlign="center";ctx.fillStyle="#98a2b3";ctx.font="13px sans-serif";
+    ctx.fillText(filters.carb||filters.protein?"Nenhum registro para este filtro":"Suas medições aparecerão aqui",r.width/2,r.height/2);
+  }
+}
 function populateFilters(){
   const carb=[...new Set(state.dinners.flatMap(d=>d.carb||[]))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
   const protein=[...new Set(state.dinners.flatMap(d=>d.protein||[]))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
