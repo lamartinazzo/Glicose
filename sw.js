@@ -1,4 +1,4 @@
-const VERSION = "glicose-v11";
+const VERSION = "glicose-v12";
 const CACHE = VERSION;
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./sw.js"];
 

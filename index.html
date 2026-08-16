@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="app-version" content="11">
+<meta charset="utf-8"><meta name="app-version" content="12">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
 <title>Glicose — diário</title>
@@ -17,9 +17,9 @@
 .history-main{min-width:0}.dinner-time{font-size:11px;color:#8b94a2;margin-left:6px}.history-actions{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}.glucose-btn{margin-top:5px}.danger-btn{color:#a33}
 .export-btn{border:0;background:#eaf1ff;color:#174ea6;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:800}
 .chart-note{font-size:10px;color:#8a93a0;line-height:1.4;margin-top:4px;padding-top:8px;border-top:1px solid var(--line)}
-</style>
-</head>
-<body data-app-version="11.0">
+.filters{margin:0 0 12px}.filter-title{font-size:11px;font-weight:800;color:#667085;margin-bottom:7px}.filter-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.filter-row select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:9px 30px 9px 10px;font-size:12px;color:#344054;min-width:150px}.filter-row select:focus{outline:2px solid #dbe8ff}.filter-active{background:#eaf1ff!important;color:#174ea6!important}</style>
+<link id="app-icon-svg" rel="icon" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYXBwLWljb24tc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQyIiBmaWxsPSIjMTcyMDMzIi8+PHBhdGggZD0iTTkwIDM1Yy0yOCAwLTUxIDIzLTUxIDUxIDAgMzQgNTEgNTkgNTEgNTlzNTEtMjUgNTEtNTljMC0yOC0yMy01MS01MS01MVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNOTAgNTF2NzBNNTUgODZoNzAiIHN0cm9rZT0iI2Q2NDU0NSIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"><link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYXBwLWljb24tc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQyIiBmaWxsPSIjMTcyMDMzIi8+PHBhdGggZD0iTTkwIDM1Yy0yOCAwLTUxIDIzLTUxIDUxIDAgMzQgNTEgNTkgNTEgNTlzNTEtMjUgNTEtNTljMC0yOC0yMy01MS01MS01MVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNOTAgNTF2NzBNNTUgODZoNzAiIHN0cm9rZT0iI2Q2NDU0NSIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"></head>
+<body data-app-version="12.0">
 <div class="app">
 <header class="topbar">
   <div><div class="eyebrow">DIÁRIO DE GLICOSE</div><h1>Glicose</h1><p>Jantar hoje. Glicose amanhã.</p></div>
@@ -38,7 +38,15 @@
   <button class="secondary wide" onclick="openMorningEntry()">Registrar glicose</button>
 </section>
 
-<section class="card panel"><div class="panel-head"><div><span class="section-kicker">TENDÊNCIA</span><h2>Evolução</h2></div></div><div class="chart-wrap"><canvas id="chart"></canvas></div><div class="chart-note">Faixa de referência: 70–99 mg/dL. Pontos em atenção: 70–74 e 94–99. Fora da faixa: abaixo de 70 ou acima de 99.</div></section>
+<section class="card panel"><div class="panel-head"><div><span class="section-kicker">TENDÊNCIA</span><h2>Evolução</h2></div></div><div class="chart-wrap"><div class="filters" id="filters">
+  <div class="filter-title">Filtrar gráfico</div>
+  <div class="filter-row">
+    <select id="carbFilter"><option value="">Todos os carboidratos</option></select>
+    <select id="proteinFilter"><option value="">Todas as proteínas</option></select>
+    <button type="button" id="clearFilters" class="mini">Limpar</button>
+  </div>
+</div>
+<canvas id="chart"></canvas></div><div class="chart-note">Faixa de referência: 70–99 mg/dL. Pontos em atenção: 70–74 e 94–99. Fora da faixa: abaixo de 70 ou acima de 99.</div></section>
 
 <section class="stats-grid">
 <div class="card stat"><span>Última</span><strong id="sLatest">—</strong><small id="sLatestDate">—</small></div>
@@ -84,6 +92,7 @@ if(!localStorage.getItem(KEY)){
   localStorage.setItem(KEY,JSON.stringify(state));
 }
 let mode="dinner",editingId=null,glucoseDinnerId=null,customGroup=null,customButton=null;
+let filters={carb:"",protein:""};
 
 const $=id=>document.getElementById(id);
 const today=()=>new Date().toISOString().slice(0,10);
@@ -268,103 +277,64 @@ function glucoseStatus(v){
   return "normal";
 }
 
+function filteredDinners(){
+  return state.dinners.filter(d=>{
+    const carbOk=!filters.carb || (d.carb||[]).includes(filters.carb);
+    const proteinOk=!filters.protein || (d.protein||[]).includes(filters.protein);
+    return carbOk && proteinOk && d.glucose!=null;
+  }).sort((a,b)=>(a.glucoseDate||plus(a.date,1)).localeCompare(b.glucoseDate||plus(b.date,1)));
+}
 function draw(){
-  const c=$("chart"),r=c.getBoundingClientRect(),ctx=c.getContext("2d"),dpr=devicePixelRatio||1;
-  const W=r.width,H=r.height;
-  c.width=Math.max(1,W*dpr);c.height=Math.max(1,H*dpr);
-  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
-
-  const data=state.dinners
-    .filter(x=>x.glucose!=null)
-    .sort((x,y)=>(x.glucoseDate||plus(x.date,1)).localeCompare(y.glucoseDate||plus(y.date,1)));
-
-  if(!data.length){
-    ctx.fillStyle="#98a2b3";ctx.textAlign="center";ctx.font="14px sans-serif";
-    ctx.fillText("Suas medições aparecerão aqui",W/2,H/2);return;
+  const c=$("chart"),r=c.getBoundingClientRect(),ctx=c.getContext("2d"),d=devicePixelRatio||1;
+  c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,r.width,r.height);
+  const a=filteredDinners();
+  const mn=60,mx=105;
+  const X=i=>35+(r.width-55)*(i/(a.length-1||1)),Y=v=>12+(r.height-42)*(1-(v-mn)/(mx-mn));
+  ctx.font="11px sans-serif";ctx.textAlign="left";
+  const y70=Y(70),y75=Y(75),y94=Y(94),y99=Y(99);
+  // Background bands: altered / attention / normal.
+  ctx.fillStyle="rgba(214,69,69,.07)";ctx.fillRect(35,0,r.width-55,y99);
+  ctx.fillStyle="rgba(245,158,11,.09)";ctx.fillRect(35,y99,r.width-55,y94-y99);
+  ctx.fillStyle="rgba(34,197,94,.06)";ctx.fillRect(35,y94,r.width-55,y75-y94);
+  ctx.fillStyle="rgba(245,158,11,.09)";ctx.fillRect(35,y75,r.width-55,y70-y75);
+  ctx.fillStyle="rgba(214,69,69,.07)";ctx.fillRect(35,y70,r.width-55,r.height-y70);
+  // Grid and limit lines.
+  ctx.strokeStyle="#e7eaf0";ctx.lineWidth=1;
+  [60,70,75,94,99,105].forEach(v=>{const y=Y(v);ctx.beginPath();ctx.moveTo(35,y);ctx.lineTo(r.width-20,y);ctx.stroke()});
+  ctx.strokeStyle="#d64545";ctx.setLineDash([5,4]);ctx.lineWidth=1.5;
+  [70,99].forEach(v=>{const y=Y(v);ctx.beginPath();ctx.moveTo(35,y);ctx.lineTo(r.width-20,y);ctx.stroke()});ctx.setLineDash([]);
+  ctx.fillStyle="#667085";ctx.textAlign="right";
+  [60,70,75,94,99,105].forEach(v=>ctx.fillText(v+"",31,Y(v)+4));
+  if(!a.length){
+    ctx.textAlign="center";ctx.fillStyle="#98a2b3";ctx.font="14px sans-serif";
+    ctx.fillText(filters.carb||filters.protein?"Nenhum registro para este filtro":"Suas medições aparecerão aqui",r.width/2,r.height/2);
+    return;
   }
-
-  // Fixed clinical/contextual display limits requested by the user.
-  // The plotting window extends slightly beyond them so out-of-range values
-  // remain visible, while the limits themselves stay fixed at 70 and 99.
-  const axisMin=60,axisMax=105;
-  const p={l:42,r:16,t:18,b:40};
-  const plotW=W-p.l-p.r,plotH=H-p.t-p.b;
-  const X=i=>p.l+plotW*(data.length===1?.5:i/(data.length-1));
-  const Y=v=>p.t+plotH*(1-(v-axisMin)/(axisMax-axisMin));
-  const clampY=v=>Math.max(p.t,Math.min(H-p.b,Y(v)));
-
-  // Background zones.
-  ctx.fillStyle="#eef7f1";ctx.fillRect(p.l,Y(94),plotW,Y(75)-Y(94)); // normal 75–93
-  ctx.fillStyle="#fff6df";ctx.fillRect(p.l,Y(99),plotW,Y(94)-Y(99)); // attention 94–99
-  ctx.fillStyle="#fff6df";ctx.fillRect(p.l,Y(74),plotW,Y(70)-Y(74)); // attention 70–74
-  ctx.fillStyle="#fff0f0";ctx.fillRect(p.l,p.t,plotW,Y(99)-p.t);       // >99
-  ctx.fillStyle="#fff0f0";ctx.fillRect(p.l,Y(70),plotW,H-p.b-Y(70));   // <70
-
-  // Grid and y labels.
-  ctx.font="11px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";
-  ctx.textAlign="right";ctx.lineWidth=1;
-  [60,70,74,81,88,94,99,105].forEach(v=>{
-    const y=Y(v);
-    ctx.strokeStyle=(v===70||v===99)?"#9b7b36":"#e5e8ec";
-    ctx.setLineDash((v===70||v===99)?[5,5]:[2,7]);
-    ctx.beginPath();ctx.moveTo(p.l,y);ctx.lineTo(W-p.r,y);ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle=(v===70||v===99)?"#6b5a2b":"#7c8491";
-    ctx.fillText(v,p.l-7,y+4);
-  });
-
-  // Fixed threshold labels.
-  ctx.textAlign="left";ctx.font="10px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";
-  ctx.fillStyle="#6b5a2b";ctx.fillText("limite 99",p.l+5,Y(99)-5);
-  ctx.fillText("limite 70",p.l+5,Y(70)+13);
-
-  // Smooth line using quadratic midpoints, with segment status coloring.
-  const points=data.map((e,i)=>({x:X(i),y:clampY(e.glucose),value:e.glucose,status:glucoseStatus(e.glucose)}));
-  function segmentColor(a,b){
-    if(a.status==="alterada"||b.status==="alterada") return "#c73d3d";
-    if(a.status==="atenção"||b.status==="atenção") return "#c68a1a";
-    return "#456b5a";
-  }
-  ctx.lineWidth=3;ctx.lineCap="round";ctx.lineJoin="round";
-  for(let i=0;i<points.length-1;i++){
-    const a=points[i],b=points[i+1],mx=(a.x+b.x)/2;
-    ctx.strokeStyle=segmentColor(a,b);ctx.beginPath();
-    ctx.moveTo(a.x,a.y);ctx.quadraticCurveTo(mx,a.y,mx,(a.y+b.y)/2);
-    ctx.quadraticCurveTo(mx,b.y,b.x,b.y);ctx.stroke();
-  }
-
-  // Points.
-  points.forEach((pt,i)=>{
-    const fill=pt.status==="alterada"?"#c73d3d":pt.status==="atenção"?"#c68a1a":"#456b5a";
-    ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(pt.x,pt.y,6,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle=fill;ctx.lineWidth=3;ctx.stroke();
-    ctx.fillStyle=fill;ctx.beginPath();ctx.arc(pt.x,pt.y,3.2,0,Math.PI*2);ctx.fill();
-  });
-
-  // X-axis labels.
-  ctx.fillStyle="#7c8491";ctx.font="11px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";ctx.textAlign="center";
-  points.forEach((pt,i)=>{
-    const label=short(data[i].glucoseDate||plus(data[i].date,1));
-    ctx.fillText(label,pt.x,H-14);
-  });
-
-  // Compact legend.
-  const legend=[
-    ["#456b5a","Normal","75–93"],
-    ["#c68a1a","Atenção","70–74 / 94–99"],
-    ["#c73d3d","Alterada","<70 / >99"]
-  ];
-  let lx=p.l,ly=H-2;
-  // Draw legend just above x labels when there is enough width; otherwise
-  // use the top-right area.
-  if(W<390){ly=p.t+8;lx=W-150}else{ly=H-1;lx=p.l}
-  ctx.textAlign="left";ctx.font="9px -apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif";
-  legend.forEach(([color,name,range],idx)=>{
-    const x=lx+idx*(W<390?0:112), y=ly-(W<390?idx*14:0);
-    ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y-3,3,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle="#697282";ctx.fillText(name+" "+range,x+7,y);
+  // Smooth-ish line.
+  ctx.lineWidth=2.5;ctx.strokeStyle="#315fbd";ctx.beginPath();
+  a.forEach((e,i)=>i?ctx.lineTo(X(i),Y(e.glucose)):ctx.moveTo(X(i),Y(e.glucose)));ctx.stroke();
+  a.forEach((e,i)=>{
+    const v=e.glucose;
+    const outside=v<70||v>99, attention=(v>=70&&v<=74)||(v>=94&&v<=99);
+    ctx.fillStyle=outside?"#d64545":attention?"#f59e0b":"#315fbd";
+    ctx.beginPath();ctx.arc(X(i),Y(v),5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#344054";ctx.font="10px sans-serif";ctx.textAlign="center";ctx.fillText(v,X(i),Y(v)-9);
+    ctx.fillStyle="#98a2b3";ctx.fillText(short(e.glucoseDate||plus(e.date,1)),X(i),r.height-9);
   });
 }
+function populateFilters(){
+  const carb=[...new Set(state.dinners.flatMap(d=>d.carb||[]))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
+  const protein=[...new Set(state.dinners.flatMap(d=>d.protein||[]))].sort((a,b)=>a.localeCompare(b,"pt-BR"));
+  const cf=$("carbFilter"),pf=$("proteinFilter");if(!cf||!pf)return;
+  const cval=filters.carb,pval=filters.protein;
+  cf.innerHTML='<option value="">Todos os carboidratos</option>'+carb.map(x=>`<option>${x}</option>`).join("");
+  pf.innerHTML='<option value="">Todas as proteínas</option>'+protein.map(x=>`<option>${x}</option>`).join("");
+  cf.value=carb.includes(cval)?cval:"";pf.value=protein.includes(pval)?pval:"";
+  cf.classList.toggle("filter-active",!!filters.carb);pf.classList.toggle("filter-active",!!filters.protein);
+}
+$("carbFilter")?.addEventListener("change",e=>{filters.carb=e.target.value;populateFilters();draw()});
+$("proteinFilter")?.addEventListener("change",e=>{filters.protein=e.target.value;populateFilters();draw()});
+$("clearFilters")?.addEventListener("click",()=>{filters={carb:"",protein:""};populateFilters();draw()});
 
 function exportCSV(){
   const headers=[
@@ -386,7 +356,7 @@ function exportCSV(){
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),500);
 }
-render();window.addEventListener("resize",draw);
+populateFilters();render();window.addEventListener("resize",draw);
 </script>
 
 <script>
