@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="app-version" content="7">
+<meta charset="utf-8"><meta name="app-version" content="9">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
 <title>Glicose — diário</title>
@@ -18,7 +18,7 @@
 .export-btn{border:0;background:#eaf1ff;color:#174ea6;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:800}
 </style>
 </head>
-<body data-app-version="3.0">
+<body data-app-version="9.0">
 <div class="app">
 <header class="topbar">
   <div><div class="eyebrow">DIÁRIO DE GLICOSE</div><h1>Glicose</h1><p>Jantar hoje. Glicose amanhã.</p></div>
@@ -74,101 +74,6 @@
 <div class="form-actions"><button type="button" class="secondary" onclick="closeForm()">Cancelar</button><button class="primary" type="submit" id="saveBtn">Salvar jantar</button></div>
 </form></div></div>
 
-<div class="app">
-<header>
-  <div class="brand"><h1>Glicose</h1><p>Registro simples da medição + jantar anterior</p></div>
-  <div class="header-actions">
-    <button class="secondary" onclick="document.getElementById('fileInput').click()">Importar CSV</button><button class="secondary" onclick="exportCSV()">Exportar</button>
-    <button class="primary" onclick="openForm()">+ Registrar</button>
-  </div>
-</header>
-
-<section class="grid">
-  <div class="card stat"><div class="label">Última glicose</div><div class="value" id="sLatest">—</div><small id="sLatestDate">—</small></div>
-  <div class="card stat"><div class="label">Média 7 dias</div><div class="value" id="sAvg7">—</div><small>apenas registros disponíveis</small></div>
-  <div class="card stat"><div class="label">Menor registro</div><div class="value" id="sMin">—</div><small>histórico</small></div>
-  <div class="card stat"><div class="label">Maior registro</div><div class="value" id="sMax">—</div><small>histórico</small></div>
-</section>
-
-<section class="card panel">
-  <h2>Evolução</h2>
-  <div class="chart-wrap"><canvas id="chart"></canvas></div>
-  <div class="notice">Este gráfico acompanha seus registros ao longo do tempo. Ele não classifica a medição como normal ou alterada.</div>
-</section>
-
-<section class="card panel">
-  <h2>Registros recentes</h2>
-  <div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Glicose</th><th>Jantar</th><th>Horário</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
-</section>
-
-<div class="footer">
-  Os dados iniciais da sua planilha foram carregados. Novos registros e alterações ficam salvos localmente neste navegador. Use <b>Exportar</b> para fazer backup ou levar os dados para uma planilha. 
-  O app é um diário de acompanhamento e não substitui avaliação profissional.
-</div>
-</div>
-
-<div class="modal" id="modal">
-<div class="modal-box">
-  <div class="modal-head"><h3 id="formTitle">Nova medição</h3><button class="close" onclick="closeForm()">×</button></div>
-  <form id="form">
-    <div class="form-grid">
-      <div class="field"><label>Data da medição</label><input id="date" type="date" required></div>
-      <div class="field"><label>Glicose <span class="hint">mg/dL</span></label><input id="glucose" type="number" min="20" max="600" step="1" inputmode="numeric" required placeholder="Ex.: 97"></div>
-    </div>
-
-    <div class="section-label">Jantar da noite anterior</div>
-    <div class="form-grid">
-      <div class="field"><label>Horário da janta</label><input id="dinnerTime" type="time" required></div>
-      <div class="field"><label>Fruta/pós-janta <span class="hint">opcional</span></label><input id="postDinner" type="text" placeholder="Ex.: 2 laranjas"></div>
-    </div>
-
-    <div class="section-label">O que entrou no jantar?</div>
-    <div class="field">
-      <label>Carboidrato</label>
-      <div class="chips" data-group="carb">
-        <button type="button" class="chip" data-value="Arroz branco">Arroz branco</button>
-        <button type="button" class="chip" data-value="Arroz integral">Arroz integral</button>
-        <button type="button" class="chip" data-value="Pão">Pão</button>
-        <button type="button" class="chip" data-value="Massa">Massa</button>
-        <button type="button" class="chip" data-value="Nhoque">Nhoque</button>
-        <button type="button" class="chip" data-value="Batata">Batata</button><button type="button" class="chip" data-value="Purê de batata">Purê de batata</button><button type="button" class="chip" data-value="Batata doce">Batata doce</button>
-        <button type="button" class="chip" data-value="Ciabatta">Ciabatta</button><button type="button" class="chip" data-value="Pizza">Pizza</button>
-        <button type="button" class="chip" data-value="Sem carboidrato">Sem carboidrato</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button>
-        <button type="button" class="chip" data-value="Outro">Outro</button>
-      </div>
-    </div>
-
-    <div class="field" style="margin-top:12px">
-      <label>Proteína</label>
-      <div class="chips" data-group="protein">
-        <button type="button" class="chip" data-value="Frango">Frango</button>
-        <button type="button" class="chip" data-value="Carne bovina">Carne bovina</button>
-        <button type="button" class="chip" data-value="Peixe">Peixe</button>
-        <button type="button" class="chip" data-value="Ovos">Ovos</button>
-        <button type="button" class="chip" data-value="Carne suína">Carne suína</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button>
-        <button type="button" class="chip" data-value="Outro">Outro</button>
-      </div>
-    </div>
-
-    <div class="field" style="margin-top:12px">
-      <label>Acompanhamentos</label>
-      <div class="chips" data-group="sides">
-        <button type="button" class="chip" data-value="Saladas">Saladas</button>
-        <button type="button" class="chip" data-value="Legumes">Legumes</button>
-        <button type="button" class="chip" data-value="Queijo">Queijo</button>
-        <button type="button" class="chip" data-value="Molho">Molho</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button>
-        <button type="button" class="chip" data-value="Outro">Outro</button>
-      </div>
-    </div>
-
-    <div class="field full" style="margin-top:12px"><label>Observações <span class="hint">opcional</span></label><textarea id="notes" placeholder="Ex.: jantar maior que o habitual, álcool, treino à noite, etc."></textarea></div>
-    <div class="form-actions"><button type="button" class="secondary" onclick="closeForm()">Cancelar</button><button class="primary" type="submit">Salvar registro</button></div>
-  </form>
-</div>
-</div>
-
-<input id="fileInput" type="file" accept=".csv,text/csv" style="display:none">
-
 <script>
 const KEY="glicose_diary_normalized_v1";
 let state=JSON.parse(localStorage.getItem(KEY)||'{"dinners":[]}');
@@ -191,11 +96,26 @@ function dinnerText(d){return [...(d.carb||[]),...(d.protein||[]),...(d.sides||[
 function dinnerByDate(date){return state.dinners.find(d=>d.date===date)}
 function glucoseFor(d){return d?.glucose ?? null}
 
-document.querySelectorAll(".chips").forEach(c=>c.onclick=e=>{
-  const b=e.target.closest(".chip");if(!b)return;
-  if(b.dataset.value==="Outro"){openCustomFood(c.dataset.group,b);return}
-  if(["carb","protein"].includes(c.dataset.group))c.querySelectorAll(".chip").forEach(x=>x.classList.remove("selected"));
-  b.classList.toggle("selected")
+document.querySelectorAll(".chips").forEach(c=>{
+  c.onclick=e=>{
+    const b=e.target.closest(".chip");
+    if(!b || !c.contains(b)) return;
+
+    if(b.dataset.value==="Outro"){
+      openCustomFood(c.dataset.group,b);
+      return;
+    }
+
+    // Carboidrato e proteína: somente uma opção pode ficar selecionada.
+    if(["carb","protein"].includes(c.dataset.group)){
+      c.querySelectorAll(".chip.selected").forEach(x=>x.classList.remove("selected"));
+      b.classList.add("selected");
+      return;
+    }
+
+    // Acompanhamentos: permite várias opções, mas cada opção só aparece uma vez.
+    b.classList.toggle("selected");
+  };
 });
 function openCustomFood(group,button){
   customGroup=group;customButton=button;
@@ -212,10 +132,17 @@ function saveCustomFood(){
   if(!value){$("customFoodInput").focus();return}
   const c=document.querySelector(`[data-group="${customGroup}"]`);
   if(["carb","protein"].includes(customGroup))c.querySelectorAll(".chip").forEach(x=>x.classList.remove("selected"));
-  let existing=[...c.querySelectorAll(".chip")].find(x=>x.dataset.value===value);
+  let existing=[...c.querySelectorAll(".chip")].find(x=>x.dataset.value.toLowerCase()===value.toLowerCase());
   if(!existing){
-    existing=document.createElement("button");existing.type="button";existing.className="chip custom-chip";existing.dataset.value=value;existing.textContent=value;
+    existing=document.createElement("button");
+    existing.type="button";
+    existing.className="chip custom-chip";
+    existing.dataset.value=value;
+    existing.textContent=value;
     c.insertBefore(existing,customButton);
+  }
+  if(["carb","protein"].includes(customGroup)){
+    c.querySelectorAll(".chip.selected").forEach(x=>x.classList.remove("selected"));
   }
   existing.classList.add("selected");
   closeCustomFood();
@@ -269,7 +196,16 @@ $("form").onsubmit=e=>{
   if(mode==="dinner"){
     const d=editingId?state.dinners.find(x=>x.id===editingId):dinnerByDate($("date").value);
     const obj=d||{id:newId(),glucose:null};
-    Object.assign(obj,{date:$("date").value,dinnerTime:$("dinnerTime").value,postDinner:$("postDinner").value.trim(),notes:$("notes").value.trim(),carb:selected("carb"),protein:selected("protein"),sides:selected("sides")});
+    const unique=a=>[...new Set(a)];
+    Object.assign(obj,{
+      date:$("date").value,
+      dinnerTime:$("dinnerTime").value,
+      postDinner:$("postDinner").value.trim(),
+      notes:$("notes").value.trim(),
+      carb:unique(selected("carb")).slice(0,1),
+      protein:unique(selected("protein")).slice(0,1),
+      sides:unique(selected("sides"))
+    });
     if(!d)state.dinners.push(obj);
   }else{
     const d=state.dinners.find(x=>x.id===glucoseDinnerId);
