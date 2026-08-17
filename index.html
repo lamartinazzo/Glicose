@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="app-version" content="18">
+<meta charset="utf-8"><meta name="app-version" content="19">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
 <title>Glicose — diário</title>
@@ -19,8 +19,8 @@
 .chart-note{font-size:10px;color:#8a93a0;line-height:1.4;margin-top:4px;padding-top:8px;border-top:1px solid var(--line)}
 .filters{margin:0 0 12px}.filter-title{font-size:11px;font-weight:800;color:#667085;margin-bottom:7px}.filter-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.filter-row select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:9px 30px 9px 10px;font-size:12px;color:#344054;min-width:150px}.filter-row select:focus{outline:2px solid #dbe8ff}.filter-active{background:#eaf1ff!important;color:#174ea6!important}.secondary-chart{margin-top:18px;padding-top:18px;border-top:1px solid #edf0f5}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.chart-head h3{margin:3px 0 0;font-size:15px}.chart-head select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:8px 28px 8px 9px;font-size:11px;color:#344054}.bar-chart-wrap{height:250px;position:relative}.bar-chart-wrap canvas{width:100%;height:100%}.chart-subtitle{font-size:11px;color:#98a2b3;margin:3px 0 0}
 .secondary-chart{clear:both;display:block;width:100%;margin-top:24px;padding-top:20px;border-top:1px solid #edf0f5;position:relative;z-index:1;background:#fff}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.chart-head h3{margin:3px 0 0;font-size:15px}.chart-subtitle{font-size:11px;color:#98a2b3;margin:3px 0 0}.chart-head select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:8px 28px 8px 9px;font-size:11px;color:#344054}.bar-chart-wrap{height:250px;width:100%;position:relative}.bar-chart-wrap canvas{display:block;width:100%;height:250px}</style>
-<link id="app-icon-svg" rel="icon" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYXBwLWljb24tc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQyIiBmaWxsPSIjMTcyMDMzIi8+PHBhdGggZD0iTTkwIDM1Yy0yOCAwLTUxIDIzLTUxIDUxIDAgMzQgNTEgNTkgNTEgNTlzNTEtMjUgNTEtNTljMC0yOC0yMy01MS01MS01MVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNOTAgNTF2NzBNNTUgODZoNzAiIHN0cm9rZT0iI2Q2NDU0NSIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"><link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyBpZD0iYXBwLWljb24tc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQyIiBmaWxsPSIjMTcyMDMzIi8+PHBhdGggZD0iTTkwIDM1Yy0yOCAwLTUxIDIzLTUxIDUxIDAgMzQgNTEgNTkgNTEgNTlzNTEtMjUgNTEtNTljMC0yOC0yMy01MS01MS01MVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNOTAgNTF2NzBNNTUgODZoNzAiIHN0cm9rZT0iI2Q2NDU0NSIgc3Ryb2tlLXdpZHRoPSIxMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"></head>
-<body data-app-version="18.0">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"><link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png"></head>
+<body data-app-version="19.0">
 <div class="app">
 <header class="topbar">
   <div><div class="eyebrow">DIÁRIO DE GLICOSE</div><h1>Glicose</h1><p>Jantar hoje. Glicose amanhã.</p></div>
@@ -112,8 +112,19 @@ const today=()=>new Date().toISOString().slice(0,10);
 function plus(d,n){let x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)}
 function full(s){if(!s)return"—";let[y,m,d]=s.split("-");return`${d}/${m}/${y}`}
 function short(s){if(!s)return"—";let[y,m,d]=s.split("-");return`${d}/${m}`}
-function save(){localStorage.setItem(KEY,JSON.stringify(state));render();drawCarbAverage()}
-function newId(){return "d_"+Date.now()+"_"+Math.random().toString(36).slice(2)}
+function save(){
+  try{
+    persistState();
+    render();
+    if(typeof drawCarbAverage==="function") drawCarbAverage();
+    return true;
+  }catch(err){
+    console.error(err);
+    alert("Não foi possível salvar este registro. Tente novamente.");
+    return false;
+  }
+}
+function newId(){return "d_"+crypto.randomUUID()}
 function selected(g){return [...document.querySelectorAll(`[data-group="${g}"] .selected`)].map(x=>x.dataset.value)}
 function dinnerText(d){return [...(d.carb||[]),...(d.protein||[]),...(d.sides||[])].join(" · ")||"Refeição registrada"}
 function dinnerByDate(date){return state.dinners.find(d=>d.date===date)}
@@ -193,8 +204,9 @@ function openDinnerOnly(id=null){
 }
 
 function openMorningEntry(){
-  const d=dinnerByDate(plus(today(),-1));
-  if(!d){alert("Registre primeiro o jantar de ontem.");return}
+  let d=dinnerByDate(plus(today(),-1));
+  if(!d) d=state.dinners.slice().sort((a,b)=>b.date.localeCompare(a.date)).find(x=>x.glucose==null);
+  if(!d){alert("Não encontrei um jantar pendente de glicose.");return}
   mode="glucose";glucoseDinnerId=d.id;editingId=null;
   $("modalKicker").textContent="MANHÃ SEGUINTE";$("formTitle").textContent="Registrar glicose";
   $("dinnerFields").style.display="none";$("glucoseFields").style.display="block";$("saveBtn").textContent=d.glucose!=null?"Atualizar glicose":"Salvar glicose";
@@ -217,27 +229,31 @@ $("modal").onclick=e=>{if(e.target.id==="modal")closeForm()};$("customFoodModal"
 $("form").onsubmit=e=>{
   e.preventDefault();
   if(mode==="dinner"){
-    const d=editingId?state.dinners.find(x=>x.id===editingId):dinnerByDate($("date").value);
-    const obj=d||{id:newId(),glucose:null};
-    const unique=a=>[...new Set(a)];
-    Object.assign(obj,{
-      date:$("date").value,
+    const date=$("date").value;
+    const existing=editingId?state.dinners.find(x=>x.id===editingId):dinnerByDate(date);
+    const d=existing||{id:newId(),glucose:null};
+    Object.assign(d,{
+      date,
       dinnerTime:$("dinnerTime").value,
       postDinner:$("postDinner").value.trim(),
       notes:$("notes").value.trim(),
-      carb:unique(selected("carb")).slice(0,1),
-      protein:unique(selected("protein")).slice(0,1),
-      sides:unique(selected("sides"))
+      carb:[...new Set(selected("carb"))].slice(0,1),
+      protein:[...new Set(selected("protein"))].slice(0,1),
+      sides:[...new Set(selected("sides"))]
     });
-    if(!d)state.dinners.push(obj);
-  }else{
-    const d=state.dinners.find(x=>x.id===glucoseDinnerId);
-    if(!d)return;
-    const value=Number($("glucoseInput").value);
-    if(!value){alert("Informe a glicose.");return}
-    d.glucose=value;d.glucoseDate=$("date").value;
+    if(!existing) state.dinners.push(d);
+    if(save()) closeForm();
+    return;
   }
-  save();closeForm();
+  const d=state.dinners.find(x=>x.id===glucoseDinnerId);
+  const raw=$("glucoseInput").value.trim();
+  const value=Number(raw);
+  if(!d){alert("Não encontrei o jantar ao qual esta glicose pertence.");return}
+  if(raw===""||!Number.isFinite(value)||value<20||value>600){alert("Informe uma glicose válida entre 20 e 600 mg/dL.");return}
+  d.glucose=value;
+  d.glucoseDate=$("date").value;
+  d.glucoseRecordedAt=new Date().toISOString();
+  if(save()) closeForm();
 };
 
 function deleteDinner(id){
