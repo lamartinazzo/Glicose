@@ -1,26 +1,32 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="app-version" content="19">
+<meta charset="utf-8"><meta name="app-version" content="22">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111827">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Glicose">
 <title>Glicose — diário</title>
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--text:#151a22;--muted:#737c8b;--line:#e7ebf0;--blue:#2563eb;--green:#15803d;--shadow:0 8px 25px rgba(15,23,42,.06)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}.app{max-width:720px;margin:auto;padding:16px 14px 45px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}.app{max-width:720px;margin:auto;padding:calc(16px + env(safe-area-inset-top)) calc(14px + env(safe-area-inset-right)) calc(45px + env(safe-area-inset-bottom)) calc(14px + env(safe-area-inset-left))}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.eyebrow,.section-kicker{font-size:10px;letter-spacing:1px;font-weight:800;color:#9098a5}.topbar h1{font-size:29px;margin:3px 0}.topbar p{font-size:13px;color:var(--muted);margin:0}.round-btn{border:0;background:var(--blue);color:white;width:44px;height:44px;border-radius:50%;font-size:24px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}.today-card{padding:18px;margin-bottom:11px}.today-head,.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.today-card h2,.panel h2{font-size:18px;margin:4px 0}.today-card p{font-size:13px;line-height:1.45;color:var(--muted);margin:11px 0 15px}.status-pill{font-size:10px;font-weight:800;padding:6px 9px;border-radius:99px;background:#fff1db;color:#9a5b08}.status-pill.done{background:#e9f7ee;color:var(--green)}.muted-pill{background:#f0f2f5;color:#777f8d}.primary,.secondary{border:0;border-radius:12px;padding:12px 15px;font-weight:750}.primary{background:var(--blue);color:#fff}.secondary{background:#f0f3f7;color:#263142}.wide{width:100%}
 .panel{padding:18px;margin:11px 0}.chart-wrap{height:285px;margin-top:8px}.chart-wrap canvas{width:100%;height:100%}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:11px 0}.stat{padding:14px}.stat span{font-size:11px;color:var(--muted);display:block}.stat strong{font-size:21px;display:block;margin-top:6px}.stat small{font-size:10px;color:#9aa2ae}.text-btn{border:0;background:none;color:var(--blue);font-weight:700}
-.history-item{display:flex;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}.history-item:last-child{border:0}.history-dinner{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}.history-right{text-align:right}.history-right b{font-size:17px}.history-right small{font-size:9px;color:var(--muted)}.pending-glucose{font-size:11px;color:#9a5b08;font-weight:750}.mini{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 8px;font-size:11px}.empty{text-align:center;color:var(--muted);padding:24px}.footer{font-size:10px;color:#929aa7;margin-top:15px}
+.history-item{display:flex;justify-content:space-between;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}.history-item:last-child{border:0}.history-dinner{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}.history-right{text-align:right}.history-right b{font-size:17px}.history-right small{font-size:9px;color:var(--muted)}.pending-glucose{font-size:11px;color:#9a5b08;font-weight:750}.history-glucose.attencao{color:#b3720b}.history-glucose.alterada{color:#c0362c}.mini{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 8px;font-size:11px}.empty{text-align:center;color:var(--muted);padding:24px}.footer{font-size:10px;color:#929aa7;margin-top:15px}
 .modal{position:fixed;inset:0;background:#0006;display:none;align-items:flex-end;padding:9px;z-index:20}.modal.open{display:flex}.modal-box{background:white;border-radius:24px 24px 12px 12px;width:min(680px,100%);padding:18px;max-height:92vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px}.modal-head h3{font-size:21px;margin:4px 0}.close{border:0;background:#f1f3f6;border-radius:50%;width:34px;height:34px;font-size:20px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}.field label{font-size:12px;font-weight:750}.hint{color:#98a2b3;font-weight:400}input,textarea{width:100%;border:1px solid #dce1e8;border-radius:12px;padding:12px;font:inherit}textarea{min-height:68px}.section-label{font-size:11px;font-weight:800;color:#7c8592;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 8px}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{border:1px solid #dce1e8;background:white;border-radius:99px;padding:8px 11px;font-size:12px}.chip.selected{background:#eaf1ff;border-color:#8fb2ff;color:#174ea6;font-weight:750}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.linked-dinner{background:#f6f8fa;border-radius:13px;padding:12px;font-size:12px;color:#667085;line-height:1.5}
 
 .history-main{min-width:0}.dinner-time{font-size:11px;color:#8b94a2;margin-left:6px}.history-actions{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}.glucose-btn{margin-top:5px}.danger-btn{color:#a33}
+.app-banner{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;background:#151a22;color:#fff;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.28)}.app-banner div.banner-text{flex:1;min-width:0}.app-banner b{display:block;font-size:13px;margin-bottom:2px}.app-banner span{font-size:12px;color:#c7ccd6}.app-banner .banner-actions{display:flex;gap:6px;flex-shrink:0}.app-banner button{border:0;border-radius:10px;padding:8px 12px;font-size:12px;font-weight:750}.app-banner .banner-primary{background:var(--blue);color:#fff}.app-banner .banner-dismiss{background:transparent;color:#aab1bd;padding:8px}
 .export-btn{border:0;background:#eaf1ff;color:#174ea6;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:800}
 .chart-note{font-size:10px;color:#8a93a0;line-height:1.4;margin-top:4px;padding-top:8px;border-top:1px solid var(--line)}
 .filters{margin:0 0 12px}.filter-title{font-size:11px;font-weight:800;color:#667085;margin-bottom:7px}.filter-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.filter-row select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:9px 30px 9px 10px;font-size:12px;color:#344054;min-width:150px}.filter-row select:focus{outline:2px solid #dbe8ff}.filter-active{background:#eaf1ff!important;color:#174ea6!important}.secondary-chart{margin-top:18px;padding-top:18px;border-top:1px solid #edf0f5}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.chart-head h3{margin:3px 0 0;font-size:15px}.chart-head select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:8px 28px 8px 9px;font-size:11px;color:#344054}.bar-chart-wrap{height:250px;position:relative}.bar-chart-wrap canvas{width:100%;height:100%}.chart-subtitle{font-size:11px;color:#98a2b3;margin:3px 0 0}
 .secondary-chart{clear:both;display:block;width:100%;margin-top:24px;padding-top:20px;border-top:1px solid #edf0f5;position:relative;z-index:1;background:#fff}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.chart-head h3{margin:3px 0 0;font-size:15px}.chart-subtitle{font-size:11px;color:#98a2b3;margin:3px 0 0}.chart-head select{border:1px solid #dfe4ec;background:#fff;border-radius:10px;padding:8px 28px 8px 9px;font-size:11px;color:#344054}.bar-chart-wrap{height:250px;width:100%;position:relative}.bar-chart-wrap canvas{display:block;width:100%;height:250px}</style>
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"><link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png"></head>
-<body data-app-version="19.0">
+<body data-app-version="22.0">
 <div class="app">
 <header class="topbar">
   <div><div class="eyebrow">DIÁRIO DE GLICOSE</div><h1>Glicose</h1><p>Jantar hoje. Glicose amanhã.</p></div>
@@ -80,8 +86,8 @@
 <div class="modal" id="modal"><div class="modal-box">
 <div class="modal-head"><div><span class="section-kicker" id="modalKicker">JANTAR</span><h3 id="formTitle">Registrar jantar</h3></div><button class="close" onclick="closeForm()">×</button></div>
 <form id="form">
-<input id="date" type="hidden">
 <div id="dinnerFields">
+<div class="field" id="dateField"><label>Data do jantar</label><input id="date" type="date" required></div>
 <div class="field"><label>Horário da janta</label><input id="dinnerTime" type="time" required></div>
 <div class="section-label">Carboidrato</div><div class="chips" data-group="carb">
 <button type="button" class="chip" data-value="Arroz branco">Arroz branco</button><button type="button" class="chip" data-value="Pão">Pão</button><button type="button" class="chip" data-value="Massa">Massa</button><button type="button" class="chip" data-value="Nhoque">Nhoque</button><button type="button" class="chip" data-value="Batata">Batata</button><button type="button" class="chip" data-value="Purê de batata">Purê de batata</button><button type="button" class="chip" data-value="Batata doce">Batata doce</button><button type="button" class="chip" data-value="Ciabatta">Ciabatta</button><button type="button" class="chip" data-value="Pizza">Pizza</button><button type="button" class="chip" data-value="Sem carboidrato">Sem carboidrato</button><button type="button" class="chip other-chip" data-value="Outro">Outro</button></div>
@@ -108,15 +114,17 @@ let mode="dinner",editingId=null,glucoseDinnerId=null,customGroup=null,customBut
 let filters={carb:"",protein:""};
 
 const $=id=>document.getElementById(id);
-const today=()=>new Date().toISOString().slice(0,10);
-function plus(d,n){let x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)}
+function ymd(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+const today=()=>ymd(new Date());
+function plus(d,n){let x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return ymd(x)}
 function full(s){if(!s)return"—";let[y,m,d]=s.split("-");return`${d}/${m}/${y}`}
 function short(s){if(!s)return"—";let[y,m,d]=s.split("-");return`${d}/${m}`}
 function save(){
   try{
-    persistState();
+    localStorage.setItem(KEY,JSON.stringify(state));
     render();
     if(typeof drawCarbAverage==="function") drawCarbAverage();
+    if(typeof populateFilters==="function") populateFilters();
     return true;
   }catch(err){
     console.error(err);
@@ -128,7 +136,6 @@ function newId(){return "d_"+crypto.randomUUID()}
 function selected(g){return [...document.querySelectorAll(`[data-group="${g}"] .selected`)].map(x=>x.dataset.value)}
 function dinnerText(d){return [...(d.carb||[]),...(d.protein||[]),...(d.sides||[])].join(" · ")||"Refeição registrada"}
 function dinnerByDate(date){return state.dinners.find(d=>d.date===date)}
-function glucoseFor(d){return d?.glucose ?? null}
 
 document.querySelectorAll(".chips").forEach(c=>{
   c.onclick=e=>{
@@ -161,11 +168,8 @@ function openCustomFood(group,button){
   setTimeout(()=>$("customFoodInput").focus(),100);
 }
 function closeCustomFood(){$("customFoodModal").classList.remove("open");customGroup=null;customButton=null}
-function saveCustomFood(){
-  const value=$("customFoodInput").value.trim();
-  if(!value){$("customFoodInput").focus();return}
-  const c=document.querySelector(`[data-group="${customGroup}"]`);
-  if(["carb","protein"].includes(customGroup))c.querySelectorAll(".chip").forEach(x=>x.classList.remove("selected"));
+function ensureCustomChip(group,value){
+  const c=document.querySelector(`[data-group="${group}"]`);
   let existing=[...c.querySelectorAll(".chip")].find(x=>x.dataset.value.toLowerCase()===value.toLowerCase());
   if(!existing){
     existing=document.createElement("button");
@@ -173,12 +177,16 @@ function saveCustomFood(){
     existing.className="chip custom-chip";
     existing.dataset.value=value;
     existing.textContent=value;
-    c.insertBefore(existing,customButton);
+    c.insertBefore(existing,c.querySelector(".other-chip"));
   }
-  if(["carb","protein"].includes(customGroup)){
-    c.querySelectorAll(".chip.selected").forEach(x=>x.classList.remove("selected"));
-  }
-  existing.classList.add("selected");
+  return existing;
+}
+function saveCustomFood(){
+  const value=$("customFoodInput").value.trim();
+  if(!value){$("customFoodInput").focus();return}
+  const c=document.querySelector(`[data-group="${customGroup}"]`);
+  if(["carb","protein"].includes(customGroup))c.querySelectorAll(".chip.selected").forEach(x=>x.classList.remove("selected"));
+  ensureCustomChip(customGroup,value).classList.add("selected");
   closeCustomFood();
 }
 
@@ -188,7 +196,8 @@ function populateDinner(d){
   clearChips();
   if(!d)return;
   for(const g of ["carb","protein","sides"])(d[g]||[]).forEach(v=>{
-    document.querySelectorAll(`[data-group="${g}"] .chip`).forEach(x=>{if(x.dataset.value===v)x.classList.add("selected")})
+    if(!v)return;
+    ensureCustomChip(g,v).classList.add("selected");
   });
 }
 
@@ -197,6 +206,7 @@ function openDinnerOnly(id=null){
   const d=id?state.dinners.find(x=>x.id===id):dinnerByDate(today());
   $("modalKicker").textContent="JANTAR";$("formTitle").textContent=id?"Editar jantar":"Registrar jantar";
   $("dinnerFields").style.display="block";$("glucoseFields").style.display="none";$("saveBtn").textContent="Salvar jantar";
+  $("date").disabled=false;$("date").max=today();
   $("date").value=d?.date||today();
   $("dinnerTime").value=d?.dinnerTime||new Date().toTimeString().slice(0,5);
   $("postDinner").value=d?.postDinner||"";$("notes").value=d?.notes||"";
@@ -205,12 +215,12 @@ function openDinnerOnly(id=null){
 
 function openMorningEntry(){
   let d=dinnerByDate(plus(today(),-1));
-  if(!d) d=state.dinners.slice().sort((a,b)=>b.date.localeCompare(a.date)).find(x=>x.glucose==null);
+  if(!d) d=state.dinners.slice().sort((a,b)=>a.date.localeCompare(b.date)).find(x=>x.glucose==null);
   if(!d){alert("Não encontrei um jantar pendente de glicose.");return}
   mode="glucose";glucoseDinnerId=d.id;editingId=null;
   $("modalKicker").textContent="MANHÃ SEGUINTE";$("formTitle").textContent="Registrar glicose";
   $("dinnerFields").style.display="none";$("glucoseFields").style.display="block";$("saveBtn").textContent=d.glucose!=null?"Atualizar glicose":"Salvar glicose";
-  $("date").value=plus(d.date,1);$("glucoseInput").value=d.glucose??"";
+  $("date").disabled=true;$("date").value=plus(d.date,1);$("glucoseInput").value=d.glucose??"";
   $("linkedDinner").innerHTML=`<b>Jantar de ${full(d.date)}</b><br>${d.dinnerTime} · ${dinnerText(d)}${d.postDinner?" · "+d.postDinner:""}`;
   $("modal").classList.add("open");setTimeout(()=>$("glucoseInput").focus(),100);
 }
@@ -219,7 +229,7 @@ function openGlucoseForDinner(id){
   mode="glucose";glucoseDinnerId=id;
   $("modalKicker").textContent="GLICOSE";$("formTitle").textContent="Registrar glicose";
   $("dinnerFields").style.display="none";$("glucoseFields").style.display="block";$("saveBtn").textContent=d.glucose!=null?"Atualizar glicose":"Salvar glicose";
-  $("date").value=plus(d.date,1);$("glucoseInput").value=d.glucose??"";
+  $("date").disabled=true;$("date").value=plus(d.date,1);$("glucoseInput").value=d.glucose??"";
   $("linkedDinner").innerHTML=`<b>Jantar de ${full(d.date)}</b><br>${d.dinnerTime} · ${dinnerText(d)}${d.postDinner?" · "+d.postDinner:""}`;
   $("modal").classList.add("open");setTimeout(()=>$("glucoseInput").focus(),100);
 }
@@ -231,6 +241,8 @@ $("form").onsubmit=e=>{
   if(mode==="dinner"){
     const date=$("date").value;
     const existing=editingId?state.dinners.find(x=>x.id===editingId):dinnerByDate(date);
+    const conflict=state.dinners.find(x=>x.date===date && x.id!==existing?.id);
+    if(conflict){alert(`Já existe um jantar registrado em ${full(date)}. Edite esse jantar ou escolha outra data.`);return}
     const d=existing||{id:newId(),glucose:null};
     Object.assign(d,{
       date,
@@ -271,7 +283,8 @@ function render(){
   $("todayDescription").textContent=d?`${d.dinnerTime} · ${dinnerText(d)}${d.postDinner?" · "+d.postDinner:""}`:"Registre primeiro o que você comeu e o horário da janta.";
   $("morningStatus").textContent=y?(y.glucose!=null?"Registrada":"Pendente"):"Aguardando";
   $("morningStatus").className="status-pill "+(y?.glucose!=null?"done":"muted-pill");
-  $("morningDescription").textContent=y?(y.glucose!=null?"A glicose já está vinculada ao jantar de ontem.":"Adicione a glicose e ela ficará vinculada ao jantar de ontem."):"Registre o jantar hoje e complete a glicose amanhã.";
+  const statusLabel={normal:"dentro da faixa",attencao:"em atenção",alterada:"fora da faixa"};
+  $("morningDescription").textContent=y?(y.glucose!=null?`Glicose de ${y.glucose} mg/dL — ${statusLabel[glucoseStatus(y.glucose)]}.`:"Adicione a glicose e ela ficará vinculada ao jantar de ontem."):"Registre o jantar hoje e complete a glicose amanhã.";
 
   const a=state.dinners.filter(d=>d.glucose!=null).sort((x,y)=>(y.glucoseDate||plus(y.date,1)).localeCompare(x.glucoseDate||plus(x.date,1)));
   const l=a[0];
@@ -293,7 +306,7 @@ function render(){
         </div>
       </div>
       <div class="history-right">
-        ${d.glucose!=null?`<b class="history-glucose">${d.glucose}<small>mg/dL</small></b>`:`<span class="pending-glucose">Pendente</span>`}
+        ${d.glucose!=null?`<b class="history-glucose ${glucoseStatus(d.glucose)}">${d.glucose}<small>mg/dL</small></b>`:`<span class="pending-glucose">Pendente</span>`}
         <button class="mini glucose-btn" onclick="openGlucoseForDinner('${d.id}')">${d.glucose!=null?"Editar glicose":"Adicionar glicose"}</button>
       </div>
     </div>`).join("")||'<div class="empty">Nenhum jantar registrado.</div>';
@@ -302,17 +315,10 @@ function render(){
 
 function glucoseStatus(v){
   if(v<70 || v>99) return "alterada";
-  if((v>=70&&v<=74)||(v>=94&&v<=99)) return "atenção";
+  if((v>=70&&v<=74)||(v>=94&&v<=99)) return "attencao";
   return "normal";
 }
 
-function filteredDinners(){
-  return state.dinners.filter(d=>{
-    const carbOk=!filters.carb || (d.carb||[]).includes(filters.carb);
-    const proteinOk=!filters.protein || (d.protein||[]).includes(filters.protein);
-    return carbOk && proteinOk && d.glucose!=null;
-  }).sort((a,b)=>(a.glucoseDate||plus(a.date,1)).localeCompare(b.glucoseDate||plus(b.date,1)));
-}
 function filteredDinners(){
   return state.dinners.filter(d=>{
     const carbOk=!filters.carb || (d.carb||[]).includes(filters.carb);
@@ -495,8 +501,24 @@ function exportCSV(){
   a.href=url;a.download=`glicose-diario-${today()}.csv`;
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),500);
+  state.lastExport=today();
+  save();
+  $("csvReminderBanner")?.remove();
 }
-try{populateFilters();render();drawCarbAverage()}catch(err){console.error("Inicialização do app:",err)}
+
+function maybeShowCsvReminder(){
+  if(new Date().getDay()!==0) return;
+  if(state.lastExport===today()) return;
+  if($("csvReminderBanner")) return;
+  const banner=document.createElement("div");
+  banner.id="csvReminderBanner";
+  banner.className="app-banner";
+  banner.innerHTML='<div class="banner-text"><b>Backup semanal</b><span>Hoje é domingo — baixe o CSV com seus registros.</span></div><div class="banner-actions"><button class="banner-primary" id="csvReminderExport">Baixar CSV</button><button class="banner-dismiss" id="csvReminderDismiss">×</button></div>';
+  document.body.appendChild(banner);
+  $("csvReminderExport").onclick=exportCSV;
+  $("csvReminderDismiss").onclick=()=>banner.remove();
+}
+try{populateFilters();render();drawCarbAverage();maybeShowCsvReminder()}catch(err){console.error("Inicialização do app:",err)}
 window.addEventListener("resize",()=>{try{draw();drawCarbAverage()}catch(err){console.error("Redimensionamento:",err)}});
 </script>
 
@@ -536,7 +558,8 @@ window.addEventListener("resize",()=>{try{draw();drawCarbAverage()}catch(err){co
     if (document.getElementById("appUpdateBanner")) return;
     const banner=document.createElement("div");
     banner.id="appUpdateBanner";
-    banner.innerHTML='<div><b>Nova versão disponível</b><span>Atualize para usar as melhorias.</span></div><button>Atualizar</button>';
+    banner.className="app-banner";
+    banner.innerHTML='<div class="banner-text"><b>Nova versão disponível</b><span>Atualize para usar as melhorias.</span></div><div class="banner-actions"><button class="banner-primary">Atualizar</button></div>';
     banner.querySelector("button").onclick=function(){
       if(reg.waiting){
         reg.waiting.postMessage("SKIP_WAITING");
